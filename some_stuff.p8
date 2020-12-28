@@ -5,7 +5,7 @@ __lua__
 _G = _ENV
 function _init()
 
-	player = create_car(63,63)
+	player = create_car(32,63)
 	pal(5, 133,1)
 	pal(14, 128, 1)
 	pal(11,139,1)
@@ -26,7 +26,7 @@ function _init()
 
 	maxsp = 30
 
-	wheelb = 16
+	wheelb = 4
 	steering_angle = 1/6
 
 end
@@ -39,7 +39,6 @@ function _update60()
 	if (btn(0)) player.steer = steering_angle
 	if (btn(1)) player.steer = -steering_angle
 	player.velocity = player.velocity*0.97
-	calculate_steering(player)
 	if btn(5) then
 		player.velocity = player.velocity + veca(player.rot, 1/64)
 	else 
@@ -47,12 +46,12 @@ function _update60()
 	end
 	--player.x = player.x + player.velocity.x
 	--player.y = player.y + player.velocity.y
-	
-	tzoom = 1.25 - #player.velocity*1.2
+	calculate_steering(player)
+	tzoom = 1.25 - #player.velocity/2
 	mapzoom = mapzoom+(tzoom - mapzoom)/30
 	debugtxt = debugtxt.."mzoom:"..mapzoom..", tzoom:"..tzoom.. "\n"
 	debugtxt = debugtxt.."velocity:"..#player.velocity.."\n "
-	mapx = player.x - 63
+	mapx = player.x - 32
 	mapy = player.y - 63
 	for quad in all(quads) do
 		quad:update()
@@ -290,6 +289,7 @@ function calculate_steering(car)
 	local head = (front-rear):normalize()
 	car.velocity = head*#car.velocity
 	car.rot = head:ang()
+	printh(car.rot)
 	car.x += car.velocity.x
 	car.y += car.velocity.y
 end

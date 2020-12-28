@@ -98,7 +98,7 @@ function drawfullscreenmap(xscale,yscale,mx,my)
                     startoffsetx+x*tilewidth,
                     startoffsety+y*tileheight,
                     tilewidth+2,tileheight+2)
-                end
+			end
         end
     end
 end
